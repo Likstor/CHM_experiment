@@ -1,4 +1,4 @@
-class PercolationStart:
+class PercolationStats:
     def mean(self) -> int:
         ...
         
