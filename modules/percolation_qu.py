@@ -52,7 +52,8 @@ class Percolation:
         idx = 0
 
         while True:
-            output += f'{idx} ' + ' '.join(map(lambda x: f'{x} ' if x is True else str(x), self._matrix[idx]))
+            output += f'{idx} ' + ' '.join(
+                map(lambda x: f'{x} ' if x is True else str(x), self._matrix[idx]))
             idx += 1
 
             if idx < len(self._matrix):
@@ -66,27 +67,43 @@ class Percolation:
     @property
     def matrix(self) -> list:
         return self._matrix
-    
+
     def isOpen(self, string: int, column: int) -> bool:
         return self._matrix[string][column]
 
     def open(self, string: int, column: int) -> None:
         self._matrix[string][column] = True
-        
-        if column - 1 > -1 and self._matrix.isOpen(string, column - 1):
-            self._uf.union_set(column - 1 + string * len(self._matrix)) 
-        
-        if column + 1 < len(self._matrix) and self._matrix.isOpen(string, column + 1):
-            self._uf.union_set(column + 1 + string * len(self._matrix))
-        
-        if string - 1 > -1 and self._matrix.isOpen(string - 1, column):
-            self._uf.union_set(column + (string - 1) * len(self._matrix))
-            
-        if string + 1 < len(self._matrix) and self._matrix.isOpen(string + 1, column):
-            self._uf.union_set(column + (string + 1) * len(self._matrix))
+        pos_uf = string * len(self._matrix) + column
+
+        if column - 1 > -1 and self.isOpen(string, column - 1):
+            self._uf.union_set(pos_uf, column - 1 + string * len(self._matrix))
+
+        if column + 1 < len(self._matrix) and self.isOpen(string, column + 1):
+            self._uf.union_set(pos_uf, column + 1 + string * len(self._matrix))
+
+        if string - 1 > -1 and self.isOpen(string - 1, column):
+            self._uf.union_set(pos_uf, column + (string - 1)
+                               * len(self._matrix))
+
+        if string + 1 < len(self._matrix) and self.isOpen(string + 1, column):
+            self._uf.union_set(pos_uf, column + (string + 1)
+                               * len(self._matrix))
 
     def isFull(self, string: int, column: int) -> bool:
-        ...
+        if not self.isOpen(string, column):
+            return False
+
+        pos_uf = string * len(self._matrix) + column
+
+        for i in range(len(self._matrix)):
+            if self._uf.connected(i, pos_uf):
+                return True
+
+        return False
 
     def percolates(self) -> bool:
-        ...
+        for i in range(len(self._matrix)):
+            if self.isFull(len(self._matrix) - 1, i):
+                return True
+        
+        return False
