@@ -47,12 +47,14 @@ class Percolation:
         self._uf = UnionFind(size)
 
     def __str__(self):
-        output = '    ' + \
-            '     '.join(map(str, range(len(self._matrix)))) + '\n'
+        len_size = len(str(len(self._matrix)))
+        output = '   ' + \
+            ' '.join(map(lambda x: str(x).center(5),
+                         range(len(self._matrix)))) + '\n'
         idx = 0
 
         while True:
-            output += f'{idx} ' + ' '.join(
+            output += str(idx).center(len_size) + ' ' + ' '.join(
                 map(lambda x: f'{x} ' if x is True else str(x), self._matrix[idx]))
             idx += 1
 
@@ -105,5 +107,5 @@ class Percolation:
         for i in range(len(self._matrix)):
             if self.isFull(len(self._matrix) - 1, i):
                 return True
-        
+
         return False
