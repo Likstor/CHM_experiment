@@ -44,7 +44,7 @@ class QuickUnion: # реализовал Новосерьянц Эдуард О�
 class Percolation: # реализовал Новосерьянц Эдуард Отарикович
     def __init__(self, size: int) -> None:
         self._matrix = [[False] * size for _ in range(size)]
-        self._uf = UnionFind(size)
+        self._uf = QuickUnion(size)
 
     def __str__(self):
         len_size = len(str(len(self._matrix)))
