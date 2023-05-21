@@ -5,14 +5,16 @@ from tqdm import tqdm
 
 
 class PercolationStats:
-    def mean(self, exp_result: List[float], exp_count: int) -> float:
-        return sum(exp_result) / exp_count
+    def mean(self) -> float:
+        return sum(self.exp_result) / self.exp_count
 
-    def stddev(self, exp_result: List[float], exp_count: int, mean: float) -> float:
-        return ((sum([(num - mean) ** 2 for num in exp_result])) / (exp_count - 1)) ** 0.5
+    def stddev(self) -> float:
+        return ((sum([(num - self.mean()) ** 2 for num in self.exp_result])) \
+                / (self.exp_count - 1)) ** 0.5
 
-    def confidence(self, exp_count: int, mean: float, stddev: float) -> float:
-        return [mean - (1.96 * stddev) / (exp_count ** 0.5), mean + (1.96 * stddev) / (exp_count ** 0.5)]
+    def confidence(self) -> float:
+        return [self.mean() - (1.96 * self.stddev()) / (self.exp_count ** 0.5), 
+                self.mean() + (1.96 * self.stddev()) / (self.exp_count ** 0.5)]
 
     def doExperiment(self, size: int, count_exp: int) -> None:
         if size <= 0 or count_exp <= 0:
@@ -39,13 +41,16 @@ class PercolationStats:
             exp_result.append(counter / (size ** size))
             bar.update(1)
         bar.close()
+        
+        self.exp_result = exp_result.copy()
+        self.exp_count = count_exp
 
-        mean = self.mean(exp_result, count_exp)
-        stddev = self.stddev(exp_result, count_exp, mean)
-        confidence = self.confidence(count_exp, mean, stddev)
         print(
-            f'mean                    = {mean}\nstddev                  = {stddev}\n95% confidence interval = {confidence[0]}, {confidence[1]}')
-
+    f'''
+mean                    = {self.mean()}
+stddev                  = {self.stddev()}
+95% confidence interval = {', '.join(map(str, self.confidence()))}
+    ''')
 
 if __name__ == '__main__':
     print('ДЗ №2 "Просачивание"')
