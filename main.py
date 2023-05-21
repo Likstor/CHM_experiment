@@ -4,7 +4,7 @@ from tqdm import tqdm
 import time
 
 
-class PercolationStats:
+class PercolationStats: # реализовал Новосерьянц Эдуард Отарикович
     def mean(self) -> float:
         return sum(self.exp_result) / self.exp_count
 
@@ -13,7 +13,7 @@ class PercolationStats:
                 / (self.exp_count - 1)) ** 0.5
 
     def confidence(self) -> float:
-        return [self.mean() - (1.96 * self.stddev()) / (self.exp_count ** 0.5), 
+        return [self.mean() - (1.96 * self.stddev()) / (self.exp_count ** 0.5),
                 self.mean() + (1.96 * self.stddev()) / (self.exp_count ** 0.5)]
 
     def doExperiment(self, size: int, count_exp: int) -> None:
@@ -23,11 +23,11 @@ class PercolationStats:
         exp_result = []
         exp_num = 0
         bar = tqdm(total=count_exp)
-        
+
         while exp_num < count_exp:
             p_matrix = Percolation(size)
             counter = 0
-            
+        
             while not p_matrix.percolates():
                 pos = [random.randint(0, size - 1),
                        random.randint(0, size - 1)]
@@ -47,27 +47,30 @@ class PercolationStats:
         self.exp_count = count_exp
 
         print(
-    f'''
+f'''
 mean                    = {self.mean()}
 stddev                  = {self.stddev()}
 95% confidence interval = {', '.join(map(str, self.confidence()))}
-    ''')
+''')
 
-if __name__ == '__main__':
+
+if __name__ == '__main__': # реализовал Новосерьянц Эдуард Отарикович
     print('ДЗ №2 "Просачивание"')
-    
+
     while True:
         dsu_type = input('Выберите тип СНМ (qf или qu): ')
-        
+
         if dsu_type == 'qf':
             from percolation_qf import Percolation
+
             break
         elif dsu_type == 'qu':
             from percolation_qu import Percolation
+
             break
         else:
             print('Неизвестный тип СНМ, попробуйте еще раз.')
-    
+
     while True:
         size_matrix = input('Введите размер решетки: ')
         try:
@@ -83,6 +86,6 @@ if __name__ == '__main__':
             break
         except:
             print('Некорректный тип данных, попробуйте еще раз.')
-            
+
     ps = PercolationStats()
     ps.doExperiment(size_matrix, count_trials)

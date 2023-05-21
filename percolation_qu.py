@@ -1,4 +1,4 @@
-class UnionFind:
+class QuickUnion: # реализовал Новосерьянц Эдуард Отарикович
     def __init__(self, size: int = None) -> None:
         self._id = [] if size is None else list(range(size ** 2))
         self._size = [] if size is None else [1] * (size ** 2)
@@ -41,10 +41,10 @@ class UnionFind:
         return self.root(x) == self.root(y)
 
 
-class Percolation:
+class Percolation: # реализовал Новосерьянц Эдуард Отарикович
     def __init__(self, size: int) -> None:
         self._matrix = [[False] * size for _ in range(size)]
-        self._uf = UnionFind(size)
+        self._uf = QuickUnion(size)
         self._len_matrix = len(self._matrix)
 
     def __str__(self):
