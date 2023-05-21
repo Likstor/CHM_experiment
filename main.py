@@ -1,7 +1,7 @@
 import random
 from percolation_qu import Percolation
-from typing import List
 from tqdm import tqdm
+import time
 
 
 class PercolationStats:
@@ -22,11 +22,12 @@ class PercolationStats:
 
         exp_result = []
         exp_num = 0
-
         bar = tqdm(total=count_exp)
-        while exp_num <= count_exp:
+        
+        while exp_num < count_exp:
             p_matrix = Percolation(size)
             counter = 0
+            
             while not p_matrix.percolates():
                 pos = [random.randint(0, size - 1),
                        random.randint(0, size - 1)]
@@ -38,7 +39,7 @@ class PercolationStats:
                 counter += 1
 
             exp_num += 1
-            exp_result.append(counter / (size ** size))
+            exp_result.append(counter / (size ** 2))
             bar.update(1)
         bar.close()
         
