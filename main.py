@@ -27,7 +27,7 @@ class PercolationStats: # реализовал Новосерьянц Эдуар
         while exp_num < count_exp:
             p_matrix = Percolation(size)
             counter = 0
-
+        
             while not p_matrix.percolates():
                 pos = [random.randint(0, size - 1),
                        random.randint(0, size - 1)]
@@ -42,16 +42,16 @@ class PercolationStats: # реализовал Новосерьянц Эдуар
             exp_result.append(counter / (size ** 2))
             bar.update(1)
         bar.close()
-
+        
         self.exp_result = exp_result.copy()
         self.exp_count = count_exp
 
         print(
-            f'''
+f'''
 mean                    = {self.mean()}
 stddev                  = {self.stddev()}
 95% confidence interval = {', '.join(map(str, self.confidence()))}
-    ''')
+''')
 
 
 if __name__ == '__main__': # реализовал Новосерьянц Эдуард Отарикович
