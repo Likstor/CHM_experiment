@@ -1,11 +1,11 @@
-class Percolation:
+class Percolation: # реализовал Ухов Игорь Викторович
     def __init__(self, N):
         self.matrix = [[(False)] * N for y in range(N)]
         self.uf = QuickFind()
         for _ in range(N**2):
             self.uf.make_set()
 
-    def open(self, i: int, j: int) -> None:
+    def open(self, i: int, j: int) -> None: # реализовал Новосерьянц Эдуард Отарикович
         self.matrix[i][j] = True
         if j - 1 > -1 and self.isOpen(i, j - 1):
             self.uf.union_set(j + i * len(self.matrix),
@@ -43,7 +43,7 @@ class Percolation:
 
         return False
 
-    def __str__(self):
+    def __str__(self): #реализовал Новосерьянц Эдуард Отарикович
         output = '    ' + \
             '     '.join(map(str, range(len(self.matrix)))) + '\n'
         idx = 0
@@ -63,7 +63,7 @@ class Percolation:
         return output
 
 
-class QuickFind:
+class QuickFind: # реализовал Ухов Игорь Викторович
     def __init__(self) -> None:
         self.__id = []
 
